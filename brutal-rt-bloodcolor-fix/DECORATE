@@ -1,0 +1,29 @@
+// —— Green Mist 系（全サイズ・派生）
+actor WeaponFix_GreenBloodMist           : BloodMist           replaces GreenBloodMist           {}
+actor WeaponFix_GreenBloodMistSmall      : BloodmistSmall      replaces GreenBloodMistSmall      {}
+actor WeaponFix_GreenBloodMistBig        : BloodmistBig        replaces GreenBloodMistBig        {}
+actor WeaponFix_GreenBloodMistExtraBig   : BloodmistExtraBig   replaces GreenBloodMistExtraBig   {}
+actor WeaponFix_GreenBloodMistSpray      : BloodmistSpray      replaces GreenBloodMistSpray      {}
+actor WeaponFix_GreenBloodMistChainsaw   : BloodmistChainsaw   replaces GreenBloodMistChainsaw   {}
+
+// —— Green Flying 系（飛沫・トレイル・フェイク）
+actor WeaponFix_Green_Blood              : Brutal_FlyingBlood       replaces Green_Blood              {}
+actor WeaponFix_Green_FlyingBlood        : Brutal_FlyingBlood       replaces Green_FlyingBlood        {}
+actor WeaponFix_Green_FlyingBloodTrail   : Brutal_FlyingBloodTrail  replaces Green_FlyingBloodTrail   {}
+actor WeaponFix_Green_FlyingBloodFake    : Brutal_FlyingBloodFake   replaces Green_FlyingBloodFake    {}
+actor WeaponFix_Green_FlyingBloodFakeNoDecal : Brutal_FlyingBloodFakeNoDecal replaces Green_FlyingBloodFakeNoDecal {}
+
+// —— Blue Mist 系（全サイズ・派生）
+actor WeaponFix_BlueBloodMist           : BloodMist           replaces BlueBloodMist           {}
+actor WeaponFix_BlueBloodMistSmall      : BloodmistSmall      replaces BlueBloodMistSmall      {}
+actor WeaponFix_BlueBloodMistBig        : BloodmistBig        replaces BlueBloodMistBig        {}
+actor WeaponFix_BlueBloodMistExtraBig   : BloodmistExtraBig   replaces BlueBloodMistExtraBig   {}
+actor WeaponFix_BlueBloodMistSpray      : BloodmistSpray      replaces BlueBloodMistSpray      {}
+actor WeaponFix_BlueBloodMistChainsaw   : BloodmistChainsaw   replaces BlueBloodMistChainsaw   {}
+
+// —— Blue Flying 系（飛沫・トレイル・フェイク）
+actor WeaponFix_Blue_Blood              : Brutal_FlyingBlood       replaces Blue_Blood              {}
+actor WeaponFix_Blue_FlyingBlood        : Brutal_FlyingBlood       replaces Blue_FlyingBlood        {}
+actor WeaponFix_Blue_FlyingBloodTrail   : Brutal_FlyingBloodTrail  replaces Blue_FlyingBloodTrail   {}
+actor WeaponFix_Blue_FlyingBloodFake    : Brutal_FlyingBloodFake   replaces Blue_FlyingBloodFake    {}
+actor WeaponFix_Blue_FlyingBloodFakeNoDecal : Brutal_FlyingBloodFakeNoDecal replaces Blue_FlyingBloodFakeNoDecal {}
