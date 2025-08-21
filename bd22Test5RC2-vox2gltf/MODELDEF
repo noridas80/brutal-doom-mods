@@ -1,0 +1,12 @@
+Model BDECUACSHIP
+{
+  Path "models/uacship"
+  Model 0 "GVTOA0.gltf"
+  Skin  0 "vx_GVTOA0.tga"
+  // 俯角・回転が必要ならここで Pitch/Yaw/Roll や Scale を調整できます
+  // Scale 1.7 1.7 1.7  // Actor 側のScaleでも良いがモデル側で合わせたい場合
+
+  // 「GVTO A」をモデルのフレーム0へ対応付け（静的モデルならこれだけでOK）
+  FrameIndex GVTO A 0 0
+  // DeathなどでGVTO Aを再度使うなら、必要に応じて追加でFrameIndexを書く
+}
