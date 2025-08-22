@@ -17,39 +17,39 @@ class LastWeaponTracker : Inventory
 {
     Class<Weapon> PrevClass;
     Class<Weapon> CurrClass;
-    private string PrevWeaponName;
-    private string CurrWeaponName;
-    private int tickCounter;
+    private Class<Weapon> LastCheckedWeapon;
+    private int updateDelay;
 
     Default
     {
         Inventory.MaxAmount 1;
         +INVENTORY.UNDROPPABLE
+        +INVENTORY.PERSISTENTPOWER
     }
 
-    override void Tick()
+    override void DoEffect()
     {
-        let p = PlayerPawn(Owner);
-        if (!p || !p.player) { Super.Tick(); return; }
-
-        // 3ティックごとにチェック（パフォーマンスとテクスチャ問題の回避）
-        tickCounter++;
-        if (tickCounter < 3) { Super.Tick(); return; }
-        tickCounter = 0;
-
-        let w = p.player.ReadyWeapon;
-        if (!w) { Super.Tick(); return; }
+        Super.DoEffect();
         
-        // 武器名で比較（インスタンスではなく）
-        string weaponName = w.GetClassName();
-        if (weaponName != CurrWeaponName) // 武器が変わった
+        if (!Owner || !Owner.player) return;
+        
+        updateDelay++;
+        if (updateDelay < 17) return;
+        updateDelay = 0;
+        
+        let w = Owner.player.ReadyWeapon;
+        if (!w) return;
+        
+        Class<Weapon> currentWeaponClass = w.GetClass();
+        if (currentWeaponClass != LastCheckedWeapon)
         {
-            PrevWeaponName = CurrWeaponName;
-            PrevClass = CurrClass;
-            CurrWeaponName = weaponName;
-            CurrClass = w.GetClass();
+            if (LastCheckedWeapon && currentWeaponClass != PrevClass)
+            {
+                PrevClass = CurrClass;
+            }
+            CurrClass = currentWeaponClass;
+            LastCheckedWeapon = currentWeaponClass;
         }
-        Super.Tick();
     }
 }
 
@@ -59,20 +59,20 @@ class LastWeaponActivator : Inventory
     {
         Inventory.MaxAmount 1;
         +INVENTORY.UNDROPPABLE
+        +INVENTORY.PERSISTENTPOWER
     }
 
     override bool Use (bool pickup)
     {
-        let p = PlayerPawn(Owner);
-        if (!p) return false;
+        if (!Owner) return false;
 
-        let tr = LastWeaponTracker(p.FindInventory("LastWeaponTracker"));
+        let tr = LastWeaponTracker(Owner.FindInventory("LastWeaponTracker"));
         if (!tr || !tr.PrevClass) return false;
 
-        // 所持確認（無ければ失敗）
-        if (!p.FindInventory(tr.PrevClass)) return false;
+        let weapon = Owner.FindInventory(tr.PrevClass);
+        if (!weapon) return false;
 
-        p.A_SelectWeapon(tr.PrevClass);
+        PlayerPawn(Owner).A_SelectWeapon(tr.PrevClass);
         return false;
     }
 }
