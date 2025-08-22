@@ -34,7 +34,7 @@ class LastWeaponTracker : Inventory
         if (!Owner || !Owner.player) return;
         
         updateDelay++;
-        if (updateDelay < 17) return;
+        if (updateDelay < 10) return;
         updateDelay = 0;
         
         let w = Owner.player.ReadyWeapon;
