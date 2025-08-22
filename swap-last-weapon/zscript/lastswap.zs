@@ -17,7 +17,9 @@ class LastWeaponTracker : Inventory
 {
     Class<Weapon> PrevClass;
     Class<Weapon> CurrClass;
-    private Weapon CurrInst;
+    private string PrevWeaponName;
+    private string CurrWeaponName;
+    private int tickCounter;
 
     Default
     {
@@ -30,15 +32,22 @@ class LastWeaponTracker : Inventory
         let p = PlayerPawn(Owner);
         if (!p || !p.player) { Super.Tick(); return; }
 
+        // 3ティックごとにチェック（パフォーマンスとテクスチャ問題の回避）
+        tickCounter++;
+        if (tickCounter < 3) { Super.Tick(); return; }
+        tickCounter = 0;
+
         let w = p.player.ReadyWeapon;
-        if (w != CurrInst) // 武器が変わった
+        if (!w) { Super.Tick(); return; }
+        
+        // 武器名で比較（インスタンスではなく）
+        string weaponName = w.GetClassName();
+        if (weaponName != CurrWeaponName) // 武器が変わった
         {
-            if (w)
-            {
-                PrevClass = CurrClass;
-                CurrClass = w.GetClass();
-                CurrInst  = w;
-            }
+            PrevWeaponName = CurrWeaponName;
+            PrevClass = CurrClass;
+            CurrWeaponName = weaponName;
+            CurrClass = w.GetClass();
         }
         Super.Tick();
     }
