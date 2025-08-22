@@ -1,10 +1,1 @@
-setslot 1 DSweap BrutalAxe Melee_Attacks Chain_Saw
-setslot 2 Revolver BrutalSMG DualSMG MP40 DualMP40 BrutalPistol DualPistols
-setslot 3 Shot_Gun AssaultShotgun SSG 
-setslot 4 Sniper Rifle DualRifles MiniGun MG42
-setslot 5 GrenadeLauncher Rocket_Launcher IncendiaryLauncher Devastator
-setslot 6 Plasma_Gun DUalPlasmaRifles RailGun
-setslot 7 NukeLauncher BFG10k BIG_FUCKING_GUN
-setslot 8 HellishMissileLauncher Unmaker
-setslot 9 FlameCannon DualFlameCannon Flamethrower2
-setslot 0 HandGrenades
+setslot 2 BrutalSMG DualSMG PuristSMG MP40 DualMP40 PuristMP40 Revolver PuristRevolver BrutalPistol DualPistols PuristPistol
