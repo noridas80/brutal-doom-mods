@@ -11,15 +11,55 @@ class LastWeaponEvent : EventHandler
                 pmo.GiveInventory("LastWeaponActivator", 1);
         }
     }
+    
+    override void NetworkProcess(ConsoleEvent e)
+    {
+        // 武器選択コマンドを監視
+        if (e.Name == "weapnext" || e.Name == "weapprev" || 
+            e.Name.Left(6) == "slot " || e.Name.Left(4) == "use " ||
+            e.Name.Left(14) == "selectweapon ")
+        {
+            let pmo = players[e.Player].mo;
+            if (pmo)
+            {
+                let tracker = LastWeaponTracker(pmo.FindInventory("LastWeaponTracker"));
+                if (tracker)
+                {
+                    tracker.CheckWeaponChange();
+                }
+            }
+        }
+    }
+    
+    override void WorldTick()
+    {
+        // 全プレイヤーの武器状態を定期的にチェック（35ティック = 1秒に1回）
+        if (level.time % 35 == 0)
+        {
+            for (int i = 0; i < MAXPLAYERS; i++)
+            {
+                if (playeringame[i])
+                {
+                    let pmo = players[i].mo;
+                    if (pmo)
+                    {
+                        let tracker = LastWeaponTracker(pmo.FindInventory("LastWeaponTracker"));
+                        if (tracker)
+                        {
+                            tracker.CheckWeaponChange();
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 class LastWeaponTracker : Inventory
 {
     Class<Weapon> PrevClass;
     Class<Weapon> CurrClass;
-    private string PrevWeaponName;
-    private string CurrWeaponName;
-    private int tickCounter;
+    private string LastCheckedWeaponName;
 
     Default
     {
@@ -27,29 +67,26 @@ class LastWeaponTracker : Inventory
         +INVENTORY.UNDROPPABLE
     }
 
-    override void Tick()
+    void CheckWeaponChange()
     {
         let p = PlayerPawn(Owner);
-        if (!p || !p.player) { Super.Tick(); return; }
-
-        // 3ティックごとにチェック（パフォーマンスとテクスチャ問題の回避）
-        tickCounter++;
-        if (tickCounter < 3) { Super.Tick(); return; }
-        tickCounter = 0;
+        if (!p || !p.player) return;
 
         let w = p.player.ReadyWeapon;
-        if (!w) { Super.Tick(); return; }
+        if (!w) return;
         
-        // 武器名で比較（インスタンスではなく）
+        // 武器名で比較
         string weaponName = w.GetClassName();
-        if (weaponName != CurrWeaponName) // 武器が変わった
+        if (weaponName != LastCheckedWeaponName)
         {
-            PrevWeaponName = CurrWeaponName;
-            PrevClass = CurrClass;
-            CurrWeaponName = weaponName;
+            // 武器が変わった
+            if (LastCheckedWeaponName != "")
+            {
+                PrevClass = CurrClass;
+            }
             CurrClass = w.GetClass();
+            LastCheckedWeaponName = weaponName;
         }
-        Super.Tick();
     }
 }
 
