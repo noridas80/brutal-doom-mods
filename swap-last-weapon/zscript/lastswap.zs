@@ -16,39 +16,17 @@ class LastWeaponEvent : EventHandler
     {
         // 武器選択コマンドを監視
         if (e.Name == "weapnext" || e.Name == "weapprev" || 
-            e.Name.Left(6) == "slot " || e.Name.Left(4) == "use " ||
-            e.Name.Left(14) == "selectweapon ")
+            e.Name.Left(5) == "slot " || e.Name.Left(4) == "use " ||
+            e.Name.Left(13) == "selectweapon ")
         {
+            // 遅延実行のため1ティック待つ
             let pmo = players[e.Player].mo;
             if (pmo)
             {
                 let tracker = LastWeaponTracker(pmo.FindInventory("LastWeaponTracker"));
                 if (tracker)
                 {
-                    tracker.CheckWeaponChange();
-                }
-            }
-        }
-    }
-    
-    override void WorldTick()
-    {
-        // 全プレイヤーの武器状態を定期的にチェック（35ティック = 1秒に1回）
-        if (level.time % 35 == 0)
-        {
-            for (int i = 0; i < MAXPLAYERS; i++)
-            {
-                if (playeringame[i])
-                {
-                    let pmo = players[i].mo;
-                    if (pmo)
-                    {
-                        let tracker = LastWeaponTracker(pmo.FindInventory("LastWeaponTracker"));
-                        if (tracker)
-                        {
-                            tracker.CheckWeaponChange();
-                        }
-                    }
+                    tracker.ScheduleCheck();
                 }
             }
         }
@@ -60,11 +38,40 @@ class LastWeaponTracker : Inventory
     Class<Weapon> PrevClass;
     Class<Weapon> CurrClass;
     private string LastCheckedWeaponName;
+    private int checkTimer;
 
     Default
     {
         Inventory.MaxAmount 1;
         +INVENTORY.UNDROPPABLE
+    }
+    
+    override void AttachToOwner(Actor other)
+    {
+        Super.AttachToOwner(other);
+        // 初期武器をBrutalPistolに設定
+        CurrClass = "BrutalPistol";
+        LastCheckedWeaponName = "BrutalPistol";
+    }
+    
+    void ScheduleCheck()
+    {
+        checkTimer = 2; // 2ティック後にチェック
+    }
+    
+    override void DoEffect()
+    {
+        Super.DoEffect();
+        
+        // 遅延チェックのみ処理
+        if (checkTimer > 0)
+        {
+            checkTimer--;
+            if (checkTimer == 0)
+            {
+                CheckWeaponChange();
+            }
+        }
     }
 
     void CheckWeaponChange()
@@ -80,10 +87,7 @@ class LastWeaponTracker : Inventory
         if (weaponName != LastCheckedWeaponName)
         {
             // 武器が変わった
-            if (LastCheckedWeaponName != "")
-            {
-                PrevClass = CurrClass;
-            }
+            PrevClass = CurrClass;
             CurrClass = w.GetClass();
             LastCheckedWeaponName = weaponName;
         }
