@@ -17,7 +17,7 @@ class LastWeaponTracker : Inventory
 {
     Class<Weapon> PrevClass;
     Class<Weapon> CurrClass;
-    private Class<Weapon> LastCheckedWeapon;
+    Class<Weapon> LastCheckedWeapon;
     private int updateDelay;
 
     Default
