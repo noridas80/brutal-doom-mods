@@ -11,85 +11,48 @@ class LastWeaponEvent : EventHandler
                 pmo.GiveInventory("LastWeaponActivator", 1);
         }
     }
-    
-    override void NetworkProcess(ConsoleEvent e)
-    {
-        // 武器選択コマンドを監視
-        if (e.Name == "weapnext" || e.Name == "weapprev" || 
-            e.Name.Left(5) == "slot " || e.Name.Left(4) == "use " ||
-            e.Name.Left(13) == "selectweapon ")
-        {
-            // 遅延実行のため1ティック待つ
-            let pmo = players[e.Player].mo;
-            if (pmo)
-            {
-                let tracker = LastWeaponTracker(pmo.FindInventory("LastWeaponTracker"));
-                if (tracker)
-                {
-                    tracker.ScheduleCheck();
-                }
-            }
-        }
-    }
 }
 
 class LastWeaponTracker : Inventory
 {
     Class<Weapon> PrevClass;
     Class<Weapon> CurrClass;
-    private string LastCheckedWeaponName;
-    private int checkTimer;
+    private Weapon CurrInst;
+    private int tickSkip;
 
     Default
     {
         Inventory.MaxAmount 1;
         +INVENTORY.UNDROPPABLE
     }
-    
-    override void AttachToOwner(Actor other)
-    {
-        Super.AttachToOwner(other);
-        // 初期武器をBrutalPistolに設定
-        CurrClass = "BrutalPistol";
-        LastCheckedWeaponName = "BrutalPistol";
-    }
-    
-    void ScheduleCheck()
-    {
-        checkTimer = 2; // 2ティック後にチェック
-    }
-    
+
     override void DoEffect()
     {
         Super.DoEffect();
         
-        // 遅延チェックのみ処理
-        if (checkTimer > 0)
-        {
-            checkTimer--;
-            if (checkTimer == 0)
-            {
-                CheckWeaponChange();
-            }
-        }
-    }
-
-    void CheckWeaponChange()
-    {
+        // 10ティックごとにチェック（パフォーマンス対策）
+        tickSkip++;
+        if (tickSkip < 10) return;
+        tickSkip = 0;
+        
         let p = PlayerPawn(Owner);
         if (!p || !p.player) return;
 
         let w = p.player.ReadyWeapon;
-        if (!w) return;
-        
-        // 武器名で比較
-        string weaponName = w.GetClassName();
-        if (weaponName != LastCheckedWeaponName)
+        // インスタンスで比較（名前ではなく）
+        if (w != CurrInst) // 武器が変わった
         {
-            // 武器が変わった
-            PrevClass = CurrClass;
-            CurrClass = w.GetClass();
-            LastCheckedWeaponName = weaponName;
+            if (w)
+            {
+                // デバッグ出力
+                Console.Printf("Weapon changed: %s -> %s", 
+                    CurrClass ? CurrClass.GetClassName() : "none",
+                    w.GetClassName());
+                    
+                PrevClass = CurrClass;
+                CurrClass = w.GetClass();
+                CurrInst  = w;
+            }
         }
     }
 }
@@ -108,11 +71,21 @@ class LastWeaponActivator : Inventory
         if (!p) return false;
 
         let tr = LastWeaponTracker(p.FindInventory("LastWeaponTracker"));
-        if (!tr || !tr.PrevClass) return false;
+        if (!tr || !tr.PrevClass) 
+        {
+            Console.Printf("Swap failed: PrevClass=%s", 
+                tr ? (tr.PrevClass ? tr.PrevClass.GetClassName() : "null") : "no tracker");
+            return false;
+        }
 
         // 所持確認（無ければ失敗）
-        if (!p.FindInventory(tr.PrevClass)) return false;
+        if (!p.FindInventory(tr.PrevClass)) 
+        {
+            Console.Printf("Swap failed: Don't have %s", tr.PrevClass.GetClassName());
+            return false;
+        }
 
+        Console.Printf("Swapping to: %s", tr.PrevClass.GetClassName());
         p.A_SelectWeapon(tr.PrevClass);
         return false;
     }
