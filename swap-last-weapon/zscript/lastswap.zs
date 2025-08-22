@@ -73,6 +73,13 @@ class LastWeaponActivator : Inventory
         if (!weapon) return false;
 
         PlayerPawn(Owner).A_SelectWeapon(tr.PrevClass);
+        
+        // 切り替え後、現在と前の武器を即座に入れ替え
+        Class<Weapon> temp = tr.CurrClass;
+        tr.CurrClass = tr.PrevClass;
+        tr.PrevClass = temp;
+        tr.LastCheckedWeapon = tr.CurrClass;
+        
         return false;
     }
 }
