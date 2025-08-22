@@ -17,8 +17,9 @@ class LastWeaponTracker : Inventory
 {
     Class<Weapon> PrevClass;
     Class<Weapon> CurrClass;
-    private Weapon CurrInst;
-    private int tickSkip;
+    private string PrevWeaponName;
+    private string CurrWeaponName;
+    private int tickCounter;
 
     Default
     {
@@ -26,34 +27,29 @@ class LastWeaponTracker : Inventory
         +INVENTORY.UNDROPPABLE
     }
 
-    override void DoEffect()
+    override void Tick()
     {
-        Super.DoEffect();
-        
-        // 10ティックごとにチェック（パフォーマンス対策）
-        tickSkip++;
-        if (tickSkip < 10) return;
-        tickSkip = 0;
-        
         let p = PlayerPawn(Owner);
-        if (!p || !p.player) return;
+        if (!p || !p.player) { Super.Tick(); return; }
+
+        // 3ティックごとにチェック（パフォーマンスとテクスチャ問題の回避）
+        tickCounter++;
+        if (tickCounter < 3) { Super.Tick(); return; }
+        tickCounter = 0;
 
         let w = p.player.ReadyWeapon;
-        // インスタンスで比較（名前ではなく）
-        if (w != CurrInst) // 武器が変わった
+        if (!w) { Super.Tick(); return; }
+        
+        // 武器名で比較（インスタンスではなく）
+        string weaponName = w.GetClassName();
+        if (weaponName != CurrWeaponName) // 武器が変わった
         {
-            if (w)
-            {
-                // デバッグ出力
-                Console.Printf("Weapon changed: %s -> %s", 
-                    CurrClass ? CurrClass.GetClassName() : "none",
-                    w.GetClassName());
-                    
-                PrevClass = CurrClass;
-                CurrClass = w.GetClass();
-                CurrInst  = w;
-            }
+            PrevWeaponName = CurrWeaponName;
+            PrevClass = CurrClass;
+            CurrWeaponName = weaponName;
+            CurrClass = w.GetClass();
         }
+        Super.Tick();
     }
 }
 
@@ -71,21 +67,11 @@ class LastWeaponActivator : Inventory
         if (!p) return false;
 
         let tr = LastWeaponTracker(p.FindInventory("LastWeaponTracker"));
-        if (!tr || !tr.PrevClass) 
-        {
-            Console.Printf("Swap failed: PrevClass=%s", 
-                tr ? (tr.PrevClass ? tr.PrevClass.GetClassName() : "null") : "no tracker");
-            return false;
-        }
+        if (!tr || !tr.PrevClass) return false;
 
         // 所持確認（無ければ失敗）
-        if (!p.FindInventory(tr.PrevClass)) 
-        {
-            Console.Printf("Swap failed: Don't have %s", tr.PrevClass.GetClassName());
-            return false;
-        }
+        if (!p.FindInventory(tr.PrevClass)) return false;
 
-        Console.Printf("Swapping to: %s", tr.PrevClass.GetClassName());
         p.A_SelectWeapon(tr.PrevClass);
         return false;
     }
