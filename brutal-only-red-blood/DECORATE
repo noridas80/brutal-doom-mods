@@ -68,3 +68,65 @@ actor WeaponFix_BlueBloodFootPrintLeft    : RedBloodFootPrintLeft   replaces Blu
 actor WeaponFix_BlueBloodFootPrintRight   : RedBloodFootPrintRight  replaces BlueBloodFootPrintRight   {}
 actor WeaponFix_PurpleBloodFootPrintLeft  : RedBloodFootPrintLeft   replaces PurpleBloodFootPrintLeft  {}
 actor WeaponFix_PurpleBloodFootPrintRight : RedBloodFootPrintRight  replaces PurpleBloodFootPrintRight {}
+
+// —— Green Liquid Blood 系（液体血）
+actor WeaponFix_Green_LiquidBlood        : Brutal_LiquidBlood       replaces Green_LiquidBlood        {}
+actor WeaponFix_Green_LiquidBlood2       : Brutal_LiquidBlood       replaces Green_LiquidBlood2       {}
+actor WeaponFix_Green_LiquidBlood3       : Brutal_FlyingBlood       replaces Green_LiquidBlood3       {}
+actor WeaponFix_Green_LiquidBloodFast    : Brutal_LiquidBlood       replaces Green_LiquidBloodFast    {}
+actor WeaponFix_Green_LiquidBloodTrail   : Brutal_LiquidBloodTrail  replaces Green_LiquidBloodTrail   {}
+
+// —— Green Blood Spot 系（血痕）
+actor WeaponFix_Green_BloodSpot          : Brutal_Bloodspot         replaces Green_BloodSpot          {}
+actor WeaponFix_GreenGiantBloodSpot      : GiantBloodSpot           replaces GreenGiantBloodSpot      {}
+actor WeaponFix_GreenMinuscleBloodSpot   : Brutal_Bloodspot         replaces GreenMinuscleBloodSpot   {}
+actor WeaponFix_GreenBigBloodSpot        : GiantBloodSpot           replaces GreenBigBloodSpot        {}
+actor WeaponFix_GreenMediumBloodSpot     : GiantBloodSpot           replaces GreenMediumBloodSpot     {}
+actor WeaponFix_GreenMediumBloodSpot2    : GiantBloodSpot           replaces GreenMediumBloodSpot2    {}
+
+// —— Green Wall Blood 系（壁血）
+actor WeaponFix_WallGreenBlood           : WallRedBlood             replaces WallGreenBlood           {}
+actor WeaponFix_SuperWallGreenBlood      : WallRedBlood             replaces SuperWallGreenBlood      {}
+actor WeaponFix_GiantWallGreenBlood      : WallRedBlood             replaces GiantWallGreenBlood      {}
+actor WeaponFix_ShortWallGreenBlood      : WallRedBlood             replaces ShortWallGreenBlood      {}
+
+// —— Green Arterial Spray 系（動脈血噴射）
+actor WeaponFix_GreenArterialBloodSpray  : ArterialBloodSpray       replaces GreenArterialBloodSpray  {}
+
+// —— Green Ceil Blood 系（天井血）
+actor WeaponFix_GreenCeilBloodLauncher   : CeilBloodLauncher        replaces GreenCeilBloodLauncher   {}
+actor WeaponFix_GreenCeilBloodLauncherLong: CeilBloodLauncher       replaces GreenCeilBloodLauncherLong {}
+actor WeaponFix_GreenCeilBloodSpot       : CeilBloodSpot            replaces GreenCeilBloodSpot       {}
+actor WeaponFix_GreenCeilBloodSpotLarge  : CeilBloodSpot            replaces GreenCeilBloodSpotLarge  {}
+actor WeaponFix_GreenBloodDripingFromCeiling : BloodDripingFromCeiling replaces GreenBloodDripingFromCeiling {}
+actor WeaponFix_GreenBloodDripingFromCeilingBig : BloodDripingFromCeiling replaces GreenBloodDripingFromCeilingBig {}
+
+// —— Green XDeath 系（爆発死体）
+actor WeaponFix_XDeath1Green             : XDeath1                  replaces XDeath1Green             {}
+actor WeaponFix_XDeath2Green             : XDeath2                  replaces XDeath2Green             {}
+actor WeaponFix_XDeath2bGreen            : XDeath2                  replaces XDeath2bGreen            {}
+actor WeaponFix_XDeath3Green             : XDeath3                  replaces XDeath3Green             {}
+actor WeaponFix_XDeath3bGreen            : XDeath3                  replaces XDeath3bGreen            {}
+actor WeaponFix_XDeath4Green             : XDeath4                  replaces XDeath4Green             {}
+actor WeaponFix_XDeath5Green             : XDeath5                  replaces XDeath5Green             {}
+actor WeaponFix_XDeath6Green             : XDeath6                  replaces XDeath6Green             {}
+
+// —— Green Guts/Organs 系（内臓）
+actor WeaponFix_GreenGuts                : Guts                     replaces GreenGuts                {}
+actor WeaponFix_GreenGuts2               : Guts                     replaces GreenGuts2               {}
+actor WeaponFix_XDeathOrgan1Green        : XDeathOrgan1             replaces XDeathOrgan1Green        {}
+actor WeaponFix_XDeathOrgan1bGreen       : XDeathOrgan1b            replaces XDeathOrgan1bGreen       {}
+actor WeaponFix_XDeathOrgan2Green        : XDeathOrgan1b            replaces XDeathOrgan2Green        {}
+
+// —— Green Brain 系（脳）
+actor WeaponFix_SmallGreenBrainPiece     : SmallBrainPiece          replaces SmallGreenBrainPiece     {}
+actor WeaponFix_GreenBrainPiece          : SmallBrainPiece          replaces GreenBrainPiece          {}
+actor WeaponFix_SmallGreenBrainPieceFast : SmallBrainPiece          replaces SmallGreenBrainPieceFast {}
+actor WeaponFix_SmallGreenBrainPieceFalling : SmallBrainPieceFalling replaces SmallGreenBrainPieceFalling {}
+
+// —— Green Much Blood 系（大量血）
+actor WeaponFix_MuchBloodGreen           : Blood                    replaces MuchBloodGreen           {}
+actor WeaponFix_MuchBlood2Green          : Blood                    replaces MuchBlood2Green          {}
+actor WeaponFix_MuchBlood3Green          : Blood                    replaces MuchBlood3Green          {}
+actor WeaponFix_GreenBloodDying          : Brutal_Blood             replaces GreenBloodDying          {}
+actor WeaponFix_GreenSawBlood            : Brutal_Blood             replaces GreenSawBlood            {}
