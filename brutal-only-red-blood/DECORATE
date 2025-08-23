@@ -1,3 +1,6 @@
+// Doom2 Ray Traced 用血飛沫色統一パッチ
+// 血飛沫を赤色に統一
+
 // —— Green Mist 系（全サイズ・派生）
 actor WeaponFix_GreenBloodMist           : BloodMist           replaces GreenBloodMist           {}
 actor WeaponFix_GreenBloodMistSmall      : BloodmistSmall      replaces GreenBloodMistSmall      {}
@@ -27,3 +30,20 @@ actor WeaponFix_Blue_FlyingBlood        : Brutal_FlyingBlood       replaces Blue
 actor WeaponFix_Blue_FlyingBloodTrail   : Brutal_FlyingBloodTrail  replaces Blue_FlyingBloodTrail   {}
 actor WeaponFix_Blue_FlyingBloodFake    : Brutal_FlyingBloodFake   replaces Blue_FlyingBloodFake    {}
 actor WeaponFix_Blue_FlyingBloodFakeNoDecal : Brutal_FlyingBloodFakeNoDecal replaces Blue_FlyingBloodFakeNoDecal {}
+
+// —— Green Splasher 系（血溜まり）
+actor WeaponFix_GreenBloodSplasher      : BloodSplasher       replaces GreenBloodSplasher      {}
+actor WeaponFix_GreenSuperBloodSplasher : SuperBloodSplasher  replaces GreenSuperBloodSplasher {}
+
+// —— Blue Splasher 系（血溜まり）  
+actor WeaponFix_BlueBloodSplasher       : BloodSplasher       replaces BlueBloodSplasher       {}
+actor WeaponFix_BlueSuperBloodSplasher  : SuperBloodSplasher  replaces BlueSuperBloodSplasher  {}
+
+// —— Purple Splasher 系（血溜まり）
+actor WeaponFix_PurpleBloodSplasher      : BloodSplasher       replaces PurpleBloodSplasher      {}
+actor WeaponFix_PurpleSuperBloodSplasher : SuperBloodSplasher  replaces PurpleSuperBloodSplasher {}
+
+// —— Inventory Splasher 系
+actor WeaponFix_BloodSplasher_Green     : BloodSplasher_Red   replaces BloodSplasher_Green     {}
+actor WeaponFix_BloodSplasher_Blue      : BloodSplasher_Red   replaces BloodSplasher_Blue      {}
+actor WeaponFix_BloodSplasher_Purple    : BloodSplasher_Red   replaces BloodSplasher_Purple    {}
