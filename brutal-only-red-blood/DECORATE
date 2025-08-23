@@ -47,3 +47,24 @@ actor WeaponFix_PurpleSuperBloodSplasher : SuperBloodSplasher  replaces PurpleSu
 actor WeaponFix_BloodSplasher_Green     : BloodSplasher_Red   replaces BloodSplasher_Green     {}
 actor WeaponFix_BloodSplasher_Blue      : BloodSplasher_Red   replaces BloodSplasher_Blue      {}
 actor WeaponFix_BloodSplasher_Purple    : BloodSplasher_Red   replaces BloodSplasher_Purple    {}
+
+// —— Growing Blood Pool 系（血溜まり）
+actor WeaponFix_GreenGrowingBloodPool   : GrowingBloodPool    replaces GreenGrowingBloodPool   {}
+actor WeaponFix_BlueGrowingBloodPool    : GrowingBloodPool    replaces BlueGrowingBloodPool    {}
+actor WeaponFix_PurpleGrowingBloodPool  : GrowingBloodPool    replaces PurpleGrowingBloodPool  {}
+
+// —— Dripping Blood Pool 系（滴る血の溜まり）
+actor WeaponFix_DripingGreenBloodLeavesPool      : DripingBloodLeavesPool      replaces DripingGreenBloodLeavesPool      {}
+actor WeaponFix_DripingBlueBloodLeavesPool       : DripingBloodLeavesPool      replaces DripingBlueBloodLeavesPool       {}
+actor WeaponFix_DripingPurpleBloodLeavesPool     : DripingBloodLeavesPool      replaces DripingPurpleBloodLeavesPool     {}
+actor WeaponFix_DripingGreenBloodLeavesSmallPool : DripingBloodLeavesSmallPool replaces DripingGreenBloodLeavesSmallPool {}
+actor WeaponFix_DripingBlueBloodLeavesSmallPool  : DripingBloodLeavesSmallPool replaces DripingBlueBloodLeavesSmallPool  {}
+actor WeaponFix_DripingPurpleBloodLeavesSmallPool: DripingBloodLeavesSmallPool replaces DripingPurpleBloodLeavesSmallPool{}
+
+// —— Blood FootPrint 系（血の足跡）
+actor WeaponFix_GreenBloodFootPrintLeft   : RedBloodFootPrintLeft   replaces GreenBloodFootPrintLeft   {}
+actor WeaponFix_GreenBloodFootPrintRight  : RedBloodFootPrintRight  replaces GreenBloodFootPrintRight  {}
+actor WeaponFix_BlueBloodFootPrintLeft    : RedBloodFootPrintLeft   replaces BlueBloodFootPrintLeft    {}
+actor WeaponFix_BlueBloodFootPrintRight   : RedBloodFootPrintRight  replaces BlueBloodFootPrintRight   {}
+actor WeaponFix_PurpleBloodFootPrintLeft  : RedBloodFootPrintLeft   replaces PurpleBloodFootPrintLeft  {}
+actor WeaponFix_PurpleBloodFootPrintRight : RedBloodFootPrintRight  replaces PurpleBloodFootPrintRight {}
