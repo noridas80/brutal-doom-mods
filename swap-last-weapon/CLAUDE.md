@@ -8,13 +8,21 @@ This is a GZDoom/ZDoom mod that implements a "swap to last weapon" functionality
 
 ## Code Architecture
 
-The mod consists of the following core components:
+The mod consists of three interconnected components implemented in `zscript/lastswap.zs`:
 
-1. **Event System** (`zscript/lastswap.zs:1-14`): `LastWeaponEvent` handles player initialization, ensuring each player receives the necessary inventory items when entering the game.
+1. **Event Handler** (`LastWeaponEvent`, lines 1-14): Initializes the tracking system when players enter the game by giving them the necessary inventory items.
 
-2. **Weapon Tracking** (`zscript/lastswap.zs:16-45`): `LastWeaponTracker` continuously monitors the player's equipped weapon and maintains both the current and previous weapon classes.
+2. **Weapon Tracker** (`LastWeaponTracker`, lines 16-84): 
+   - Monitors weapon changes with a 10-tick update delay to avoid rapid switching issues
+   - Maintains `CurrClass` (current weapon) and `PrevClass` (previous weapon) 
+   - Uses `ExpectedWeapon` to handle swap transitions properly
+   - Prevents duplicate tracking when swapping back and forth
 
-3. **Weapon Swapping** (`zscript/lastswap.zs:47-69`): `LastWeaponActivator` handles the actual weapon swap when activated, checking weapon availability before switching.
+3. **Swap Activator** (`LastWeaponActivator`, lines 86-121):
+   - Triggered by the Q key via the `Use` method
+   - Validates weapon availability before switching
+   - Immediately swaps the current/previous weapon references after initiating the switch
+   - Sets `ExpectedWeapon` to prevent the tracker from incorrectly updating during the transition
 
 ## File Structure
 
@@ -23,28 +31,38 @@ The mod consists of the following core components:
 - `zscript.txt` - Main ZScript entry point specifying version 4.8
 - `zscript/lastswap.zs` - Core implementation of the weapon swapping logic
 
+## Key Implementation Details
+
+- **Update Delay**: The tracker uses a 10-tick delay (`updateDelay`) to prevent rapid updates during weapon transitions
+- **Swap State Management**: The `ExpectedWeapon` field prevents the tracker from misinterpreting player-initiated swaps as manual weapon changes
+- **Class Tracking**: Tracks weapon classes (not instances) to handle weapon pickups/drops correctly
+- **Immediate State Swap**: After initiating a swap, the tracker immediately exchanges `CurrClass` and `PrevClass` to maintain correct state
+
 ## Development Commands
 
 ### Testing the Mod
-To test this mod with GZDoom:
 ```bash
 # Load the mod with GZDoom (assuming GZDoom is in PATH)
 gzdoom -file .
 
-# Or if testing with a specific WAD
+# Test with a specific IWAD
 gzdoom -iwad doom2.wad -file .
+
+# Test with debug output (if needed)
+gzdoom -file . +logfile debug.log
 ```
 
-### Packaging
-To create a PK3/WAD file for distribution:
+### Packaging for Distribution
 ```bash
 # Create a PK3 archive
 zip -r swap-last-weapon.pk3 KEYCONF ZMAPINFO zscript.txt zscript/
+
+# Verify the archive structure
+unzip -l swap-last-weapon.pk3
 ```
 
-## Key Technical Notes
+## Technical Requirements
 
-- The mod uses ZScript version 4.8 features
-- Weapon tracking occurs every tick via the `Tick()` override
-- The system tracks weapon classes, not instances, to handle weapon respawns/pickups correctly
-- The swap will fail silently if the player no longer has the previous weapon in inventory
+- ZScript version 4.8 or higher
+- GZDoom 4.8.0 or later
+- Compatible with multiplayer (each player gets their own tracker instance)
