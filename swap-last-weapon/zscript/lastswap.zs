@@ -19,6 +19,8 @@ class LastWeaponTracker : Inventory
     Class<Weapon> CurrClass;
     Class<Weapon> LastCheckedWeapon;
     private int updateDelay;
+    bool isSwapping;
+    int swapCooldown;
 
     Default
     {
@@ -33,6 +35,11 @@ class LastWeaponTracker : Inventory
         
         if (!Owner || !Owner.player) return;
         
+        if (swapCooldown > 0)
+        {
+            swapCooldown--;
+        }
+        
         updateDelay++;
         if (updateDelay < 10) return;
         updateDelay = 0;
@@ -41,6 +48,19 @@ class LastWeaponTracker : Inventory
         if (!w) return;
         
         Class<Weapon> currentWeaponClass = w.GetClass();
+        
+        // スワップ中は通常の更新をスキップ
+        if (isSwapping)
+        {
+            // スワップが完了したかチェック
+            if (currentWeaponClass == CurrClass)
+            {
+                isSwapping = false;
+                LastCheckedWeapon = currentWeaponClass;
+            }
+            return;
+        }
+        
         if (currentWeaponClass != LastCheckedWeapon)
         {
             if (LastCheckedWeapon && currentWeaponClass != PrevClass)
@@ -69,20 +89,26 @@ class LastWeaponActivator : Inventory
         let tr = LastWeaponTracker(Owner.FindInventory("LastWeaponTracker"));
         if (!tr || !tr.PrevClass) return false;
 
+        // スワップクールダウン中は処理しない
+        if (tr.swapCooldown > 0) return false;
+
         let weapon = Owner.FindInventory(tr.PrevClass);
         if (!weapon) return false;
 
+        // 同じ武器へのスワップは防ぐ
+        if (tr.PrevClass == tr.CurrClass) return false;
+
         PlayerPawn(Owner).A_SelectWeapon(tr.PrevClass);
         
+        // スワップ状態を設定
+        tr.isSwapping = true;
+        tr.swapCooldown = 15; // 0.5秒程度のクールダウン
+        
         // 切り替え後、現在と前の武器を即座に入れ替え
-        // ただし、同じ武器にならないようチェック
-        if (tr.PrevClass != tr.CurrClass)
-        {
-            Class<Weapon> temp = tr.CurrClass;
-            tr.CurrClass = tr.PrevClass;
-            tr.PrevClass = temp;
-            tr.LastCheckedWeapon = tr.CurrClass;
-        }
+        Class<Weapon> temp = tr.CurrClass;
+        tr.CurrClass = tr.PrevClass;
+        tr.PrevClass = temp;
+        tr.LastCheckedWeapon = tr.CurrClass;
         
         return false;
     }
