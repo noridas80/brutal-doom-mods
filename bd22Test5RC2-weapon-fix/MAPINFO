@@ -1,0 +1,16 @@
+skill Hard
+{
+   AmmoFactor = 1
+   DamageFactor = 1.0
+   SpawnFilter = Hard
+   RespawnTime = 30
+   name = "$TAGBD_HARD"
+   TextColor = "Red"
+   mustconfirm = "-==    ULTRA-VIOLENCE    ==-\
+   \
+   Spawn preset: HARD\
+   Damage taken: 100%\
+   Enemy health: 100%\
+   \
+   For experienced players."
+}
